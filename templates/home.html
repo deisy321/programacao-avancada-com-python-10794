@@ -1,18 +1,97 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Auth0 Example</title>
-  </head>
-  <body>
-    {% if session %}
-        <h1>Ol Lara {{session.userinfo.name}}!</h1>
-        <p><a href="/logout">Logout</a></p>
-        <div><pre>{{pretty}}</pre></div>
-    {% else %}
-       <center> <h1>Bem vindo à BreamBuilder </h1>
-        <div style="overflow: hidden;">
-          <img src="{{ url_for('static', filename='images/logo-removebg-preview.png') }}">
-        <p><a href="/login" >Login</a></p>
-    {% endif %}
-  </body>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Estilos personalizados */
+        body {
+            background-color: #f8f9fa; /* Cor de fundo suave */
+        }
+        .welcome-container {
+            margin-top: 100px; /* Espaçamento superior */
+            text-align: center; /* Centraliza o texto */
+        }
+        .welcome-title {
+            font-size: 2.5rem; /* Tamanho da fonte do título */
+            color: #343a40; /* Cor do texto */
+        }
+        .welcome-image {
+            max-width: 100px; /* Tamanho da imagem do perfil */
+            height: auto; /* Mantém a proporção da imagem */
+            border-radius: 50%; /* Torna a imagem redonda */
+        }
+        .btn-custom {
+            margin-top: 20px; /* Margem para os botões */
+            padding: 10px 20px; /* Tamanho do botão */
+        }
+        .logo {
+            max-width: 40px; /* Ajuste o tamanho do logotipo aqui */
+            height: auto; /* Mantém a proporção da imagem */
+        }
+        .profile-pic {
+            position: absolute; /* Posiciona a imagem no canto superior direito */
+            top: 20px;
+            right: 20px;
+            cursor: pointer; /* Muda o cursor para indicar que é clicável */
+        }
+        /* Oculta o checkbox */
+        #toggle {
+            display: none;
+        }
+        /* Estilo para mostrar as informações quando o checkbox estiver marcado */
+        #toggle:checked + .user-info {
+            display: block; /* Mostra as informações do usuário */
+        }
+        .user-info {
+            display: none; /* Inicialmente oculta as informações do usuário */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <img src="{{ url_for('static', filename='images/logo-removebg-preview.png') }}" class="logo" alt="Logo">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Checkbox oculto -->
+    <input type="checkbox" id="toggle" />
+    <label for="toggle">
+        <img src="{{ session.userinfo.picture if session.userinfo else url_for('static', filename='default_picture.png') }}" class="welcome-image profile-pic" alt="Foto de Perfil"> <!-- Foto de perfil no canto superior direito -->
+    </label>
+
+    <div class="container welcome-container">
+        <div class="user-info"> <!-- Informações do usuário -->
+            {% if session.userinfo %}
+                <h1 class="welcome-title">Bem-vindo(a), {{ session.userinfo.name }}!</h1>
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Informações do Usuário</h5>
+                        <p class="card-text"><strong>Email:</strong> {{ session.userinfo.email }}</p>
+                        <p class="card-text"><strong>Nome Completo:</strong> {{ session.userinfo.name }}</p>
+                        <p class="card-text"><strong>Nickname:</strong> {{ session.userinfo.nickname }}</p>
+                        <p class="card-text"><strong>Verificado:</strong> {{ session.userinfo.email_verified | tojson }}</p>
+                        <a href="/logout" class="btn btn-danger btn-custom">Logout</a>
+                    </div>
+                </div>
+            {% else %}
+                <h1 class="welcome-title">Por favor, faça login para ver suas informações.</h1>
+            {% endif %}
+        </div>
+    </div>
+</body>
 </html>
