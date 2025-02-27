@@ -10,6 +10,11 @@ import json
 # Carregar as variáveis do .env
 load_dotenv()
 
+print("AUTH0_DOMAIN:", os.getenv("AUTH0_DOMAIN"))
+print("AUTH0_CLIENT_ID:", os.getenv("AUTH0_CLIENT_ID"))
+print("AUTH0_CLIENT_SECRET:", os.getenv("AUTH0_CLIENT_SECRET"))
+
+
 app = Flask(__name__)
 app.secret_key = os.getenv("APP_SECRET_KEY")
 
@@ -88,13 +93,24 @@ def home():
 
 @app.route('/aplicacao')
 def aplicacao():
+    if 'user' not in session:
+        return redirect(url_for('login'))  # Redireciona para login se não estiver autenticado
     return render_template('aplicacao.html')
 
-@app.route('/login')
+
+""" @app.route('/login')
 def login():
     return oauth.auth0.authorize_redirect(
         redirect_uri=url_for("callback", _external=True)
+    ) """
+
+@app.route('/login')
+def login():
+    print("Redirecionando para o Auth0...")
+    return oauth.auth0.authorize_redirect(
+        redirect_uri=url_for("callback", _external=True)
     )
+
 
 @app.route('/logout')
 def logout():
@@ -112,11 +128,19 @@ def logout():
         )
     )
 
-@app.route("/callback", methods=["GET", "POST"])
+""" @app.route("/callback", methods=["GET", "POST"])
 def callback():
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
+    return redirect(url_for("aplicacao")) """
+
+@app.route("/callback", methods=["GET", "POST"])
+def callback():
+    token = oauth.auth0.authorize_access_token()
+    print("Token recebido:", token)
+    session["user"] = token
     return redirect(url_for("aplicacao"))
+
 
 # Endpoint para criação de usuários (POST)
 @app.route('/usuarios', methods=['POST'])
