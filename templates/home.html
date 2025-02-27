@@ -58,24 +58,5 @@
             </ul>
         </div>
     </nav>
-
-    <div class="container welcome-container">
-        {% if session.userinfo %}
-            <h1 class="welcome-title">Bem-vindo(a), {{ session.userinfo.name }}!</h1>
-            <img src="{{ session.userinfo.picture }}" class="welcome-image" alt="Foto de Perfil">
-            <div class="card mt-4">
-                <div class="card-body">
-                    <h5 class="card-title">Informações do Usuário</h5>
-                    <p class="card-text"><strong>Email:</strong> {{ session.userinfo.email }}</p>
-                    <p class="card-text"><strong>Nome Completo:</strong> {{ session.userinfo.name }}</p>
-                    <p class="card-text"><strong>Nickname:</strong> {{ session.userinfo.nickname }}</p>
-                    <p class="card-text"><strong>Verificado:</strong> {{ session.userinfo.email_verified | tojson }}</p>
-                    <a href="/logout" class="btn btn-danger btn-custom">Logout</a>
-                </div>
-            </div>
-        {% else %}
-            <p>Você não está logado.</p>
-        {% endif %}
-    </div>
 </body>
 </html>

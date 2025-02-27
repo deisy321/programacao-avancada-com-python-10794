@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicação</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <img src="{{ url_for('static', filename='images/logo-removebg-preview.png') }}" alt="img" width="200" style="float: right; margin-left: 20px;">
+    <h1>Bem-vindo à Aplicação</h1>
+    <p>Você está logado com sucesso!</p>
+    <a href="/logout" class="btn btn-danger btn-custom" style="float: right; margin-left: 60px;">Logout</a>
+</body>
+</html>

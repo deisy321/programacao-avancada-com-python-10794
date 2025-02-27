@@ -2,7 +2,7 @@
 .vercel
 .vscode
 pycache
-venvv
+venv
 __pycache__
 *.pyc
 *.pyo
